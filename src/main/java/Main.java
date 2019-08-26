@@ -11,14 +11,8 @@ public class Main {
     // Behaves like a global variable
     public static void main(String[] args){
         Scanner input = new Scanner(System.in);
-        System.out.println("Input UserID");
-        int UserID = input.nextInt();
-        System.out.println("Input Username");
-        String Username = input.nextLine();
-        System.out.println("Input Date Of Birth yyyy-mm-dd");
-        String DateOfBirth = input.nextLine();
-        openDatabase("Database.db");
-        insertUsers(UserID, Username, DateOfBirth);
+
+        openDatabase("courseworkDatabase.db");
         listUsers();
 
         closeDatabase();
@@ -26,13 +20,16 @@ public class Main {
 
     public static void listUsers(){
         try{
-            PreparedStatement ps = db.prepareStatement("SELECT UserID, Username, DateOfBirth FROM Users");
+            PreparedStatement ps = db.prepareStatement("SELECT UserID, firstName, lastName, password, email, admin FROM Users");
             ResultSet results = ps.executeQuery();
             while(results.next()){
                 int UserID = results.getInt(1);
-                String Username = results.getString(2);
-                String DateOfBirth = results.getString(3);
-                System.out.println(UserID + " " + Username + " " + DateOfBirth);
+                String firstName = results.getString(2);
+                String lastName = results.getString(3);
+                String password = results.getString(4);
+                String email = results.getString(5);
+                String admin = results.getString(6);
+                System.out.println(UserID + " " + firstName + " " + lastName + " " + password + " " + email + " " + admin);
             }
         }   catch (Exception exception){
             System.out.println("Database error: " + exception.getMessage());
